@@ -1,0 +1,13 @@
+-main ApplicationMain 
+-lib openfl
+-lib flixel
+-cp source
+-D tools=1
+-D openfl_ver=1.0.10
+-D openfl
+-D web
+-swf-version 11
+-swf export/flash/bin/Template.swf
+-swf-header 640:800:30:FFFFFF
+-cp export/flash/haxe
+#--remap nme:flash
