@@ -9,15 +9,16 @@ class Target extends FlxSprite {
 
 
 	public function new():Void {
-		super(FlxG.mouse.x, FlxG.mouse.y, "assets/target1.png");
+		super(FlxG.mouse.x - 28, FlxG.mouse.y - 28, "assets/target1.png");
 		currentState = cast(FlxG.state, PlayState);
 	}
 
 	override public function update():Void {
 		super.update();
 
-		x = FlxG.mouse.x;
-		y = FlxG.mouse.y;
+		x = FlxG.mouse.x - 28;
+		y = FlxG.mouse.y - 28;
+
 
 	}
 }

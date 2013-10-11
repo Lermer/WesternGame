@@ -19,6 +19,8 @@ class PlayState extends FlxState {
 	public var shotgun: FlxGroup;
 	var target: Target;
 
+
+
 	override public function create():Void {
 
 		bgImage = new FlxSprite(0,0,"assets/map.png");
@@ -26,8 +28,9 @@ class PlayState extends FlxState {
 
 		bandit = new Bandit(FlxG.width/2-20, FlxG.height-20);
 		add(bandit); // Add Bandit
-		shotgun = 
-		new FlxGroup();
+		shotgun = new FlxGroup();
+		add(shotgun);
+
 		add(shotgun);
 		target = new Target();
 		add(target);
