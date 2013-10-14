@@ -9,7 +9,7 @@ class EnemyBullet extends FlxSprite {
 
 	public function new(startX:Float, startY:Float):Void {
 		super(startX, startY);
-		loadGraphic("assets/bullets.png",true,false,12,24);
+		loadGraphic("assets/sam/bullets.png",true,false,12,24);
 		addAnimation("loop",[0,1,2,3]);
 		play("loop");
 	}

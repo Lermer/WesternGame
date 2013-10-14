@@ -9,9 +9,8 @@ import org.flixel.util.FlxTimer;
 class Obsticle extends FlxSprite {
 
 
-	public function new(startX:Float, startY:Float, width: Int, height: Int):Void {
-		super(startX, startY);
-		makeGraphic(width, height, 0xff0000ff);
+	public function new(startX:Float, startY:Float, image: String):Void {
+		super(startX, startY, image);
 
 	
 	}

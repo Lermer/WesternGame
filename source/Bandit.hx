@@ -9,8 +9,7 @@ class Bandit extends FlxSprite {
 	var currentState: PlayState;
 
 	public function new(startX:Float, startY:Float):Void {
-		super(startX, startY);
-		makeGraphic(40, 80, 0xffffffff);
+		super(startX, startY, "assets/Pshootup.png");
 		currentState = cast(FlxG.state, PlayState);
 	}
 
