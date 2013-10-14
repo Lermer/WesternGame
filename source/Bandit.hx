@@ -8,15 +8,10 @@ class Bandit extends FlxSprite {
 
 	var currentState: PlayState;
 
-	private var bullet_delay:Int;
-
 	public function new(startX:Float, startY:Float):Void {
 		super(startX, startY);
-		makeGraphic(60, 20, 0xffffffff);
-
+		makeGraphic(40, 80, 0xffffffff);
 		currentState = cast(FlxG.state, PlayState);
-
-		bullet_delay = 0;
 	}
 
 	override public function update():Void {
@@ -37,14 +32,6 @@ class Bandit extends FlxSprite {
 		if (FlxG.keys.DOWN == true){ //Move Down
 			velocity.y = 300;
 		}
-
-		if (FlxG.mouse.pressed() == true && bullet_delay < 0){ //Move Down
-			cast(FlxG.state, PlayState).shotgun.add(new Bullet(x ,y));
-			//resetdelay
-			bullet_delay = 20;
-		}
-		bullet_delay --;
-
 
 		//Keeps Bandit on Screen
 		if (x < 0){
