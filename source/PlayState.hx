@@ -38,12 +38,12 @@ class PlayState extends FlxState {
 	var numberofenemies:Int;
 	public var enemybullets:FlxGroup;
 
-	//Obsticles
-	public var cactus:	Obsticle;
+	//Obstacles
+	public var cactus:	Obstacle;
 	public var cacti: FlxGroup;
-	var boulder: Obsticle;
+	var boulder: Obstacle;
 	var boulders: FlxGroup;
-	var barricade: Obsticle;
+	var barricade: Obstacle;
 	var barricades: FlxGroup;
 	
 	// Timers
@@ -87,7 +87,7 @@ class PlayState extends FlxState {
 			add(heli);
 			heli.scale.x = heli.scale.y = .75;
 
-		// Obsticles
+		// Obstacles
 			
 			
 				//boulder = new Obsticle(50, 0, 60, 30);
@@ -120,37 +120,50 @@ class PlayState extends FlxState {
 		carTimer -= FlxG.elapsed;
 		cactusTimer --;
 		boulderTimer -= FlxG.elapsed;
-		barricadeTimer -= FlxG.elapsed;
+		barricadeTimer --;
 
 		// Spawns new Obsticles
 		if(cactusTimer < 0){
-			cactus = new Obsticle(randomX, 0, "assets/rock.png");
+			cactus = new Obstacle(randomX, 0, "assets/cactus.png");
 			add(cactus);
 			randomX = Math.round(Math.random() * 500);
 			cactusTimer =  Math.round(Math.random() * 50);
 		}
+		if(barricadeTimer < 0){
+			barricade = new Obstacle(randomX, 0, "assets/policecarblockade.png");
+			add(barricade);
+			randomX = Math.round(Math.random() * 500);
+			barricadeTimer =  Math.round(Math.random() * 50);
+		}
 		if(boulderTimer < 0){
-			new Obsticle(Math.round(Math.random() * 500) + 100, 0, "assets/rock.png");
+			boulder = new Obstacle(randomX, 0,"assets/rock.png");
+			add(boulder);
+			randomX = Math.round(Math.random() * 500);
 			boulderTimer = 10;
 		}
+
+		/*
 		if(barricadeTimer < 0){
-			new Obsticle(Math.round(Math.random() * 500) + 100, 0, "assets/rock.png");
+			new Obstacle(Math.round(Math.random() * 500) + 100, 0, "assets/roxk.png");
 			barricadeTimer = 10;
 		}
+		*/
 
-		//Scrolling Obsticle Variables
-		cactus.velocity.y = speed;
+		//Scrolling Obstacle Variables
+		cactus.velocity.y = barricade.velocity.y = speed;
 
 		// Scrolling bg variables
 		bg.velocity.y = speed;
 		bg2.velocity.y = speed;
 
-		//Collisions
-		FlxG.overlap(cactus, bandit, BanditHitsObsticle);
-
+		
 
 
 		super.update();//needs to be here? prevents visual glitch
+
+		//Collisions
+		FlxG.overlap(cactus, bandit, BanditHitsObstacle);
+		FlxG.overlap(barricade, bandit, BanditHitsObstacle);
 
 		// Recycles backgrounds
 		if(bg.y > 1920){
@@ -170,16 +183,6 @@ class PlayState extends FlxState {
 			speed = maxSpeed;
 		}
 
-
-		// Bandit Health
-		if(BanditHealth == 0){
-			lives --;
-			BanditHealth = 3;
-		}
-		if(lives == 0){
-			FlxG.switchState(new EndState());
-		}
-
 		// Shoots Gun 
 		if (FlxG.mouse.justPressed()){
 			firing = true;
@@ -194,10 +197,11 @@ class PlayState extends FlxState {
 			}
 		}	
 	}
-		public function BanditHitsObsticle(obsticle: Obsticle, bandit: Bandit):Void { // Obsticle kills Bandit
-		obsticle.kill();
+		public function BanditHitsObstacle(obstacle: Obstacle, bandit: Bandit):Void { // Obsticle kills Bandit
+		obstacle.kill();
 		bandit.kill();
-		FlxG.play("Explosion"); // NO SOUND?
+		FlxG.log(Std.string("hit"));
+		//FlxG.play("Explosion"); // NO SOUND?
 	}
 
 }
