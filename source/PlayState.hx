@@ -39,16 +39,13 @@ class PlayState extends FlxState {
 	public var enemybullets:FlxGroup;
 
 	//Obstacles
-	public var cactus:	Obstacle;
-	public var cacti: FlxGroup;
-	var boulder: Obstacle;
+	var cacti: FlxGroup;
 	var boulders: FlxGroup;
-	var barricade: Obstacle;
 	var barricades: FlxGroup;
 	
 	// Timers
 	var carTimer: Float;
-	public var cactusTimer: Float;
+	var cactusTimer: Float;
 	var boulderTimer: Float;
 	var barricadeTimer: Float;
 
@@ -66,6 +63,7 @@ class PlayState extends FlxState {
 			maxSpeed = 400; //Limiter
 			speed = 0; //Default
 		
+
 		FlxG.volume = 0.2; //controls volume of noises
 
 		// Bandit Controls
@@ -88,12 +86,12 @@ class PlayState extends FlxState {
 			heli.scale.x = heli.scale.y = .75;
 
 		// Obstacles
-			
-			
-				//boulder = new Obsticle(50, 0, 60, 30);
-				//add(boulder);
-			//barricade = new Obsticle(200, 0, 150, 30);
-			//add(barricade);
+			cacti = new FlxGroup();
+			add(cacti);
+			boulders = new FlxGroup();
+			add(boulders);
+			barricades = new FlxGroup();
+			add(barricades);
 			
 		// Score Tally
 			Reg.score = 0;
@@ -119,61 +117,58 @@ class PlayState extends FlxState {
 		// Count Down Timers
 		carTimer -= FlxG.elapsed;
 		cactusTimer --;
-		boulderTimer -= FlxG.elapsed;
+		boulderTimer  --;
 		barricadeTimer --;
 
-		// Spawns new Obsticles
+		// Spawns new Obstacles
 		if(cactusTimer < 0){
-			cactus = new Obstacle(randomX, 0, "assets/cactus.png");
-			add(cactus);
+			cacti.add(new Obstacle(randomX, 0, "assets/cactus.png"));
+			add(cacti);
 			randomX = Math.round(Math.random() * 500);
 			cactusTimer =  Math.round(Math.random() * 50);
 		}
 		if(barricadeTimer < 0){
-			barricade = new Obstacle(randomX, 0, "assets/policecarblockade.png");
-			add(barricade);
+			barricades.add(new Obstacle(randomX, 0, "assets/policecarblockade.png"));
 			randomX = Math.round(Math.random() * 500);
 			barricadeTimer =  Math.round(Math.random() * 50);
 		}
 		if(boulderTimer < 0){
-			boulder = new Obstacle(randomX, 0,"assets/rock.png");
-			add(boulder);
+			boulders.add(new Obstacle(randomX, 0,"assets/rock.png"));
 			randomX = Math.round(Math.random() * 500);
-			boulderTimer = 10;
+			boulderTimer =  Math.round(Math.random() * 50);
 		}
 
-		/*
-		if(barricadeTimer < 0){
-			new Obstacle(Math.round(Math.random() * 500) + 100, 0, "assets/roxk.png");
-			barricadeTimer = 10;
-		}
-		*/
 
 		//Scrolling Obstacle Variables
-		cactus.velocity.y = barricade.velocity.y = speed;
+		//boulder.velocity.y = cactus.velocity.y = barricade.velocity.y = speed;
+		cacti.setAll("speedY", speed);
+		boulders.setAll("speedY", speed);
+		barricades.setAll("speedY", speed);
+		
 
 		// Scrolling bg variables
 		bg.velocity.y = speed;
 		bg2.velocity.y = speed;
 
-		
 
 
 		super.update();//needs to be here? prevents visual glitch
 
 		//Collisions
-		FlxG.overlap(cactus, bandit, BanditHitsObstacle);
-		FlxG.overlap(barricade, bandit, BanditHitsObstacle);
+		FlxG.overlap(cacti, bandit, BanditHitsObstacle);
+		FlxG.overlap(boulders, bandit, BanditHitsObstacle);
+		FlxG.overlap(barricades, bandit, BanditHitsObstacle);
 
-		// Recycles backgrounds
+
+		// Recycles Backgrounds
 		if(bg.y > 1920){
-			bg.y = -1920;
+			bg.y = bg2.y - 1920;
 		}
 		if(bg2.y > 960){
-			bg2.y = FlxG.height-3840;
+			bg2.y = bg.y - 1920;
 		}
 
-		// Speed multiplier
+		// Speed Multiplier
 		speed = maxSpeed-Math.abs(FlxG.width/2 - bandit.x);//abs makes negative values positive.
 		// Speed equals maxspeed minus half the screen minus player position
 		if(speed < 0){
@@ -192,7 +187,7 @@ class PlayState extends FlxState {
 		}	
 		if (firing){
 			if (shotgun.fireAtMouse()){
-				//FlxG.play("assets/shoot.mp3");
+				FlxG.play("assets/shoot.mp3");
 		
 			}
 		}	
