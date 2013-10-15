@@ -133,8 +133,6 @@ class PlayState extends FlxState {
 
 	override public function update():Void {
 
-		
-
 		// Count Down Timers
 		carTimer -= FlxG.elapsed;
 		cactusTimer -= FlxG.elapsed;
@@ -162,13 +160,6 @@ class PlayState extends FlxState {
 			cars.add(new Car(randomX, 820));
 			carTimer = 20;
 		}
-		/*
-		if(NumberofCars == 0){
-			heli.add(new Heli(50, 820,"assets/police.png"));
-			randomX = Math.round(Math.random() * 500);
-			NumberofCars = 10;
-		}
-		*/
 
 		//Scrolling Obstacle Variables
 		cacti.setAll("speedY", speed);
@@ -185,7 +176,7 @@ class PlayState extends FlxState {
 
 		super.update();
 
-		//Collisions: bandit vs Obstacles
+		//Collisions: Bandit vs Obstacles
 		FlxG.overlap(cacti, bandit, BanditHitsObstacle);
 		FlxG.overlap(boulders, bandit, BanditHitsObstacle);
 		FlxG.overlap(barricades, bandit, BanditHitsObstacle);
@@ -194,13 +185,10 @@ class PlayState extends FlxState {
 		FlxG.overlap(cars, cacti, EnemyHitsObstacle);
 		FlxG.overlap(cars, boulders, EnemyHitsObstacle);
 		FlxG.overlap(cars, barricades, EnemyHitsObstacle);
-		//Bandit vs Obstacles
+		//Bandit vs Enemies
 		FlxG.overlap(shotgun.group, cars, ShotgunHitsTarget);
 		FlxG.overlap(shotgun.group, heli, ShotgunHitsTarget);
 		
-
-		//bullet vs enemies
-		//FlxG.overlap(shotgun, cars, BanditShootsCar);
 
 		// Recycles Backgrounds
 		if(bg.y > 1920){
@@ -219,6 +207,7 @@ class PlayState extends FlxState {
 		else if(speed > maxSpeed){
 			speed = maxSpeed;
 		}
+
 		// Shoots Gun
 		if (FlxG.mouse.justPressed()){
 			firing = true;
@@ -235,12 +224,35 @@ class PlayState extends FlxState {
 				BanditLives --;
 				BanditHealth = 3;
 			}
-
 		}
+
+		//Bandit Loses life for Leaving path
+		if (bandit.x < 80){
+			bandit.x = 320;
+			BanditHealth --;
+			Reg.health --;
+		}
+		if (bandit.x > 500){
+			bandit.x = 320;
+			BanditHealth --;
+			Reg.health --;
+		}
+
+
+		/* Okay Reg Score works too
+		So maybe the score can be either FlxG.elapsed or just Reg ++  maybe divided
+		by 10 to make it a little less crazy big. Then add Reg + car or helicopter points
+		at the car and helicopter overlaps.
+		*/
+
+		Reg.score ++;
+		FlxG.log(Std.string(Std.int(Reg.score)));
+		//a Reg Health test. Since Reg health works we dont need BanditHealth.
+		FlxG.log(Std.string(Std.int(Reg.health)));
+		scoreText.text = ("Score: " + Std.string(Reg.score));
 	}
 		public function BanditHitsObstacle(obstacle: Obstacle, bandit: Bandit):Void { // Obsticle kills Bandit
 		obstacle.kill();
-		//bandit.kill();
 		BanditHealth --;
 		Reg.health --;
 		FlxG.play("Explosion"); // NO SOUND?
@@ -253,8 +265,8 @@ class PlayState extends FlxState {
 		}
 		public function ShotgunHitsTarget(shotgun: FlxObject, target: FlxSprite):Void { // 
 		target.kill();	
-		FlxG.log(Std.string("hit"));
 		FlxG.play("Explosion"); // NO SOUND?
+		//FlxG.log(Std.string(Std.int(bandit.x)));
 		}
 
 }
