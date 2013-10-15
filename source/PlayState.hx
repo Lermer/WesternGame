@@ -196,6 +196,7 @@ class PlayState extends FlxState {
 		FlxG.overlap(cars, barricades, EnemyHitsObstacle);
 		//Bandit vs Obstacles
 		FlxG.overlap(shotgun.group, cars, ShotgunHitsTarget);
+		FlxG.overlap(shotgun.group, heli, ShotgunHitsTarget);
 		
 
 		//bullet vs enemies
