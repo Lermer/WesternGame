@@ -31,4 +31,14 @@ class Reg
 	 * Generic bucket for storing different <code>FlxSaves</code>.
 	 * Especially useful for setting up multiple save slots.
 	 */
+	static public var health:Int = 3;
+	/**
+	 * Generic bucket for storing different <code>FlxSaves</code>.
+	 * Especially useful for setting up multiple save slots.
+	 */
+	static public var life:Int = 3;
+	/**
+	 * Generic bucket for storing different <code>FlxSaves</code>.
+	 * Especially useful for setting up multiple save slots.
+	 */
 }

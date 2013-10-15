@@ -27,8 +27,9 @@
 	
 	<assets path="assets" if="flash" >
 		<sound path="data/beep.mp3" id="Beep" />
-		<sound path="sam/shoot.mp3" id="Shoot" />
-		<sound path="sam/death.mp3" id="Explode" />
+		<sound path="death.mp3" id="Explosion" />
+		<sound path="banditbgm.mp3" id="bgMusic" />
+		<sound path="gunshot.wav" id="Shoot" />
 		<!-- Your sound embedding code here... -->
 		
 	</assets>
