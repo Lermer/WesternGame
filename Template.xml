@@ -30,6 +30,8 @@
 		<sound path="death.mp3" id="Explosion" />
 		<sound path="banditbgm.mp3" id="bgMusic" />
 		<sound path="gunshot.wav" id="Shoot" />
+		<sound path="siren.mp3" id="Siren" />
+		<sound path="Helicopter.mp3" id="Heli" />
 		<!-- Your sound embedding code here... -->
 		
 	</assets>

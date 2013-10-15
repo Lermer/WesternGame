@@ -22,21 +22,43 @@ class Bandit extends FlxSprite {
 		if (FlxG.keys.LEFT == true){ //Move Left
 			velocity.x = -300;
 		}
+		if (FlxG.keys.A == true){ //Move Left
+			velocity.x = -300;
+		}
+		//
 		if (FlxG.keys.RIGHT == true){ //Move Right
 			velocity.x = 300;
 		}
+		if (FlxG.keys.D == true){ //Move Right
+			velocity.x = 300;
+		}
+		//
 		if (FlxG.keys.UP == true){ //Move Up
 			velocity.y = -300;
 		}
+		if (FlxG.keys.W == true){ //Move Up
+			velocity.y = -300;
+		}
+		//
 		if (FlxG.keys.DOWN == true){ //Move Down
 			velocity.y = 300;
 		}
+		if (FlxG.keys.S == true){ //Move Down
+			velocity.y = 300;
+		}
 
+		//Keeps Bandit on Screen
+		if (x < 0){
+			x = 0;
+		}
+		if (x > FlxG.width-width){
+			x = FlxG.width-width;
+		}
 		if (y < 0){
 			y = 0;
 		}
-		if (y > FlxG.height-height){
-			y = FlxG.height-height;
+		if (x > FlxG.height-height){
+			x = FlxG.height-height;
 		}
 	}
 }

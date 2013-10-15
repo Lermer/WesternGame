@@ -26,6 +26,10 @@ class AssetData {
 			type.set ("bgMusic", Reflect.field (AssetType, "sound".toUpperCase ()));
 			className.set ("Shoot", nme.NME_assets_gunshot_wav);
 			type.set ("Shoot", Reflect.field (AssetType, "sound".toUpperCase ()));
+			className.set ("Siren", nme.NME_assets_siren_mp3);
+			type.set ("Siren", Reflect.field (AssetType, "sound".toUpperCase ()));
+			className.set ("Heli", nme.NME_assets_helicopter_mp3);
+			type.set ("Heli", Reflect.field (AssetType, "sound".toUpperCase ()));
 			className.set ("assets/acidstructure.ttf", nme.NME_assets_acidstructure_ttf);
 			type.set ("assets/acidstructure.ttf", Reflect.field (AssetType, "font".toUpperCase ()));
 			className.set ("assets/banditbgm.mp3", nme.NME_assets_banditbgm_mp4);
@@ -108,7 +112,7 @@ class AssetData {
 			type.set ("assets/death.mp3", Reflect.field (AssetType, "music".toUpperCase ()));
 			className.set ("assets/HaxeFlixel.svg", nme.NME_assets_haxeflixel_svg);
 			type.set ("assets/HaxeFlixel.svg", Reflect.field (AssetType, "text".toUpperCase ()));
-			className.set ("assets/Helicopter.mp3", nme.NME_assets_helicopter_mp3);
+			className.set ("assets/Helicopter.mp3", nme.NME_assets_helicopter_mp4);
 			type.set ("assets/Helicopter.mp3", Reflect.field (AssetType, "music".toUpperCase ()));
 			className.set ("assets/helicopter.png", nme.NME_assets_helicopter_png);
 			type.set ("assets/helicopter.png", Reflect.field (AssetType, "image".toUpperCase ()));
@@ -154,7 +158,7 @@ class AssetData {
 			type.set ("assets/sam/thrust.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			className.set ("assets/shoot.mp3", nme.NME_assets_shoot_mp3);
 			type.set ("assets/shoot.mp3", Reflect.field (AssetType, "music".toUpperCase ()));
-			className.set ("assets/siren.mp3", nme.NME_assets_siren_mp3);
+			className.set ("assets/siren.mp3", nme.NME_assets_siren_mp4);
 			type.set ("assets/siren.mp3", Reflect.field (AssetType, "music".toUpperCase ()));
 			className.set ("assets/stagecoachv1Frame1.png", nme.NME_assets_stagecoachv1frame1_png);
 			type.set ("assets/stagecoachv1Frame1.png", Reflect.field (AssetType, "image".toUpperCase ()));
@@ -178,6 +182,8 @@ class NME_assets_data_beep_mp3 extends flash.media.Sound { }
 class NME_assets_death_mp3 extends flash.media.Sound { }
 class NME_assets_banditbgm_mp3 extends flash.media.Sound { }
 class NME_assets_gunshot_wav extends flash.media.Sound { }
+class NME_assets_siren_mp3 extends flash.media.Sound { }
+class NME_assets_helicopter_mp3 extends flash.media.Sound { }
 class NME_assets_acidstructure_ttf extends flash.text.Font { }
 class NME_assets_banditbgm_mp4 extends flash.media.Sound { }
 class NME_assets_cactus_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
@@ -219,7 +225,7 @@ class NME_assets_data_vcr_stop_png extends flash.display.BitmapData { public fun
 class NME_assets_data_vis_bounds_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_death_mp4 extends flash.media.Sound { }
 class NME_assets_haxeflixel_svg extends flash.utils.ByteArray { }
-class NME_assets_helicopter_mp3 extends flash.media.Sound { }
+class NME_assets_helicopter_mp4 extends flash.media.Sound { }
 class NME_assets_helicopter_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_helicopter1_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_helicopter2_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
@@ -242,7 +248,7 @@ class NME_assets_sam_ships_png extends flash.display.BitmapData { public functio
 class NME_assets_sam_shoot_mp3 extends flash.media.Sound { }
 class NME_assets_sam_thrust_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_shoot_mp3 extends flash.media.Sound { }
-class NME_assets_siren_mp3 extends flash.media.Sound { }
+class NME_assets_siren_mp4 extends flash.media.Sound { }
 class NME_assets_stagecoachv1frame1_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_target_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_target1_png extends flash.display.BitmapData { public function new () { super (0, 0); } }

@@ -10,6 +10,6 @@ class ProjectClass extends FlxGame {
 
 		// Sets up size and adds first screen
 			//I made the PlayState the mainscreen just as we set up the game
-		super(stageWidth, stageHeight, PlayState, 1, 30, 30);
+		super(stageWidth, stageHeight, MenuState, 1, 30, 30);
 	}
 }

@@ -23,12 +23,15 @@ class PlayState extends FlxState {
 	var accel:Float;
 	// Scoreboard
 	var scoreText:FlxText;
-	var Lives:FlxText;
-	var Health:FlxText;
+	var LivesText:FlxText;
+	var HealthText:FlxText;
 	// Bandit
 	var bandit:Bandit;
-	var BanditHealth:Int; //Bandit Health
-	var BanditLives:Int;
+	var Health:Int;
+	var Lives:Int;
+	//Enemy Health
+	var HeliHealth:Int;
+	var CarHealth:Int;
 	//Gun
 	public var shotgun: Shotgun; //Shotgun shoots Bandit Bullets
 	var target: Target; //Target
@@ -43,6 +46,10 @@ class PlayState extends FlxState {
 	var cars: FlxGroup;
 	var boulders: FlxGroup;
 	var barricades: FlxGroup;
+	//
+	var a:Int;
+	var b:Int;
+	var c:Int;
 	//Counters
 	var NumberofCars:Int;
 	var NumberofCacti:Int;
@@ -52,8 +59,11 @@ class PlayState extends FlxState {
 	var cactusTimer: Float;
 	var boulderTimer: Float;
 	var barricadeTimer: Float;
-
+	var flashTimer:Float;
+	//randomX
 	var randomX:Int;
+	var barricadeX:Int;
+	var KilledCars:Int;
 
 	override public function create():Void {
 
@@ -67,13 +77,11 @@ class PlayState extends FlxState {
 			maxSpeed = 400; //Limiter
 			speed = 0; //Default
 		
-		FlxG.volume = 0.2; //controls volume of noises
+		FlxG.volume = .5; //controls volume
 
 		// Bandit Controls
-			bandit = new Bandit(FlxG.width/2-20, FlxG.height-100);
+			bandit = new Bandit(FlxG.width/2-30, FlxG.height-300);
 			add(bandit); // Add Bandit
-			target = new Target();
-			add(target);//Add Shotgun Target
 			shotgun = new Shotgun("shotgun",bandit);
 			add(shotgun.group); //Add Shotgun
 		// Enemy Controls
@@ -83,7 +91,7 @@ class PlayState extends FlxState {
 			enemies = new FlxGroup();
 			add(enemies);
 		// Helicopter
-			heli = new Heli(50, 300);
+			heli = new Heli(-100, 300);
 			add(heli);
 		// Obstacles
 			cacti = new FlxGroup();
@@ -94,39 +102,55 @@ class PlayState extends FlxState {
 			add(barricades);
 			cars = new FlxGroup();
 			add(cars);
+
+			target = new Target();
+			add(target);//Add Shotgun Target
 		//Obstacle Count
-			NumberofCars = 10;
-			NumberofCacti = 20;
-			NumberofBoulders= 30;
+			NumberofCars = 0;
+			NumberofCacti = 0;
+			NumberofBoulders= 0;
+			KilledCars = 0;
 		// Score Tally
-			Reg.score = 0;
 			scoreText = new FlxText(0,20,FlxG.width,"Score: " + Std.string(Reg.score));
-			scoreText.size = 20;
+			scoreText.size = 42;
+			scoreText.font = "assets/mensch-bold.ttf";
 			scoreText.alignment = "center";
 			add(scoreText);
 		// Timers
-			carTimer = 5;
+			carTimer = 2;
 			boulderTimer = 10;
 			barricadeTimer = 20;
 			cactusTimer = 2;
-		//Health
-			BanditHealth = 3;
-			Reg.health = 3;
-			Health = new FlxText(10,770,FlxG.width,"Health: " + Std.string(Reg.health));
-			Health.size = 20;
-			Health.alignment = "Left";
-			add(Health);
+			flashTimer = .5;
+		//obstacle timer updates
+			a = 2;
+			b = 5;
+			c = 10;
+		//Bandit Health
+			HealthText = new FlxText(10,760,FlxG.width,"Health: " + Std.string(Reg.health));
+			HealthText.font = "assets/mensch-bold.ttf";
+			HealthText.size = 32;
+			HealthText.alignment = "Left";
+			add(HealthText);
+
+			Health = 3;
+			Lives = 1;
+		//EnemyHealth
+			HeliHealth = 10;
+			CarHealth = 2;
 		//Lives
-			BanditLives = 3;
-			Reg.life = 3;
-			Lives = new FlxText(540,770,FlxG.width,"Lives: " + Std.string(Reg.life));
-			Lives.size = 20;
-			Lives.alignment = "Left";
-			add(Lives);
+			LivesText = new FlxText(520,760,FlxG.width,"Lives: " + Std.string(Reg.lives));
+			LivesText.font = "assets/mensch-bold.ttf";
+			LivesText.size = 32;
+			LivesText.alignment = "Left";
+			add(LivesText);
 
 			randomX = 0;
+			barricadeX = 0;
 
-			FlxG.play("bgMusic", .1 , true);
+		//SFX
+			FlxG.play("bgMusic", .6 , true);
+			FlxG.play("Siren", .2, true);
 
 			super.create();
 	}
@@ -141,31 +165,31 @@ class PlayState extends FlxState {
 
 		//Controls where Obstacles spawn on Xaxis
 		randomX = (Math.round(Math.random()*360)+90);
+		barricadeX = (Math.round(Math.random()*200)+120);
 
 		// Spawns new Obstacles
 		if(cactusTimer < 0){
 			cacti.add(new Obstacle(randomX, 0, "assets/cactus.png"));
 			add(cacti);
-			cactusTimer =  20;//Math.round(Math.random() * 50);
-		}
-		if(barricadeTimer < 0){
-			barricades.add(new Obstacle(randomX, 0, "assets/policecarblockade.png"));
-			barricadeTimer =  10;//Math.round(Math.random() * 50);
+			cactusTimer = a;
 		}
 		if(boulderTimer < 0){
 			boulders.add(new Obstacle(randomX, 0,"assets/rock.png"));
-			boulderTimer =  10;//Math.round(Math.random() * 50);
+			boulderTimer =  b;
+		}
+		if(barricadeTimer < 0){
+			barricades.add(new Obstacle(barricadeX, 0, "assets/policecarblockade.png"));
+			barricadeTimer =  c;
 		}
 		if(carTimer < 0){
 			cars.add(new Car(randomX, 820));
-			carTimer = 20;
+			carTimer = 2;
 		}
 
 		//Scrolling Obstacle Variables
 		cacti.setAll("speedY", speed);
 		boulders.setAll("speedY", speed);
 		barricades.setAll("speedY", speed);
-		
 		cars.setAll("speedY", accel);
 		
 		// Scrolling bg variables
@@ -176,7 +200,7 @@ class PlayState extends FlxState {
 
 		super.update();
 
-		//Collisions: Bandit vs Obstacles
+		//Collisions: bandit vs Obstacles
 		FlxG.overlap(cacti, bandit, BanditHitsObstacle);
 		FlxG.overlap(boulders, bandit, BanditHitsObstacle);
 		FlxG.overlap(barricades, bandit, BanditHitsObstacle);
@@ -185,11 +209,12 @@ class PlayState extends FlxState {
 		FlxG.overlap(cars, cacti, EnemyHitsObstacle);
 		FlxG.overlap(cars, boulders, EnemyHitsObstacle);
 		FlxG.overlap(cars, barricades, EnemyHitsObstacle);
-		//Bandit vs Enemies
+		//Bandit vs Obstacles
 		FlxG.overlap(shotgun.group, cars, ShotgunHitsTarget);
-		FlxG.overlap(shotgun.group, heli, ShotgunHitsTarget);
+		FlxG.overlap(shotgun.group, heli, ShotgunHitsHeli);
+		//bullets vs bandit
+		FlxG.overlap(bandit, enemybullets, BulletHitBandit);
 		
-
 		// Recycles Backgrounds
 		if(bg.y > 1920){
 			bg.y = bg2.y - 1920;
@@ -207,7 +232,6 @@ class PlayState extends FlxState {
 		else if(speed > maxSpeed){
 			speed = maxSpeed;
 		}
-
 		// Shoots Gun
 		if (FlxG.mouse.justPressed()){
 			firing = true;
@@ -217,56 +241,95 @@ class PlayState extends FlxState {
 		}
 		if (firing){
 			if (shotgun.fireAtMouse()){
-				FlxG.play("Shoot",.12);
-			}
-			if(BanditHealth == 0){
-				Reg.life --;
-				BanditLives --;
-				BanditHealth = 3;
+				FlxG.play("Shoot",.5);
 			}
 		}
-
 		//Bandit Loses life for Leaving path
 		if (bandit.x < 80){
 			bandit.x = 320;
-			BanditHealth --;
 			Reg.health --;
+			Health --;
 		}
 		if (bandit.x > 500){
 			bandit.x = 320;
-			BanditHealth --;
 			Reg.health --;
+			Health --;
+		}
+		if(HeliHealth == 0){
+			heli.kill();
+		}
+		//difficulty ramps with killed cars
+		if(KilledCars > 5){
+			a = 2;
+			b = 6;
+			c = 8;
+			FlxG.play("Heli", .1, false);
+			heli.x = heli.x += 2;
+		}
+		if(heli.x > 700) {
+			heli.kill();
 		}
 
+		if(KilledCars > 20){
+			a = 1;
+			b = 3;
+			c = 5;
+		}
 
-		/* Okay Reg Score works too
-		So maybe the score can be either FlxG.elapsed or just Reg ++  maybe divided
-		by 10 to make it a little less crazy big. Then add Reg + car or helicopter points
-		at the car and helicopter overlaps.
-		*/
+		//flashes when hurt
+		if (FlxG.overlap(heli, shotgun.group) && flashTimer > 0) {
+    		flashTimer -= FlxG.elapsed;
+    		heli.color = 0xbb3333;//flash red
+		} 
+			else {
+    		heli.color = 0xffffff;
+			}
+		//bandit health
+		if(Health == 0){
+				Lives --;
+				Reg.lives --;
+				Health = 3;
+			}
+		if(Lives == 0){
+				FlxG.switchState(new EndState());
+			}
 
-		Reg.score ++;
-		FlxG.log(Std.string(Std.int(Reg.score)));
+		//scores
+		Reg.score ++;//adds endurance points
 		//a Reg Health test. Since Reg health works we dont need BanditHealth.
-		FlxG.log(Std.string(Std.int(Reg.health)));
 		scoreText.text = ("Score: " + Std.string(Reg.score));
+		HealthText.text = ("Health: " + Std.string(Reg.health));
+		LivesText.text = ("Lives: " + Std.string(Reg.lives));
+		//Health and lives counter
 	}
 		public function BanditHitsObstacle(obstacle: Obstacle, bandit: Bandit):Void { // Obsticle kills Bandit
 		obstacle.kill();
-		BanditHealth --;
 		Reg.health --;
-		FlxG.play("Explosion"); // NO SOUND?
+		Health --;
+		FlxG.play("Explosion");
 		}
-		public function EnemyHitsObstacle(obstacle:Obstacle, c:Car):Void { // 
+		public function EnemyHitsObstacle(obstacle:Obstacle, c:Car):Void { //
 		c.kill();
 		obstacle.kill();
-		//FlxG.log(Std.string("hit"));
-		FlxG.play("Explosion"); // NO SOUND?
+		FlxG.play("Explosion");
 		}
 		public function ShotgunHitsTarget(shotgun: FlxObject, target: FlxSprite):Void { // 
-		target.kill();	
-		FlxG.play("Explosion"); // NO SOUND?
-		//FlxG.log(Std.string(Std.int(bandit.x)));
+		shotgun.kill();
+		target.kill();//car
+		KilledCars ++;
+		FlxG.play("Explosion");
 		}
+		public function ShotgunHitsHeli(shotgun: FlxObject, h: Heli):Void { // 
+		shotgun.kill();
+		HeliHealth--;
+		FlxG.play("Explosion");
+		}
+		public function BulletHitBandit(bandit:Bandit, eBullet:EnemyBullet):Void { //Void is data type for no data type/no numeric value; like int/float
+		//bandit.kill();
+		eBullet.kill();
+		Reg.health --;
+		Health --;
+		FlxG.play("Explosion");
+	}
 
 }

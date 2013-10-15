@@ -18,6 +18,6 @@ class Car extends Enemy {
 	override public function update():Void {
 		super.update();
 
-		y = y -= 1;
+		y = y -= 2;
 	}
 }

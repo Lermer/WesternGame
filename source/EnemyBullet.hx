@@ -15,7 +15,7 @@ class EnemyBullet extends FlxSprite {
 	}
 
 	override public function update():Void {
-		velocity.x = 300;
+		velocity.y = 300;
 
 		if (y > FlxG.height){
 			kill();
