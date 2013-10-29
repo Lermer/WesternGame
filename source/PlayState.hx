@@ -29,6 +29,7 @@ class PlayState extends FlxState {
 	var bandit:Bandit;
 	var Health:Int;
 	var Lives:Int;
+	var playerLife:FlxGroup;
 	//Enemy Health
 	var HeliHealth:Int;
 	var CarHealth:Int;
@@ -150,6 +151,12 @@ class PlayState extends FlxState {
 			LivesText.size = 32;
 			LivesText.alignment = "Left";
 			add(LivesText);
+			playerLife = new FlxGroup();
+				for(i in 0...Health){
+			playerLife.add(new PlayerLife(i*18, 4));
+			}
+			add(playerLife);
+
 		//
 			randomX = 0;
 			barricadeX = 0;
@@ -264,11 +271,13 @@ class PlayState extends FlxState {
 		if (bandit.x < 80){
 			bandit.x = 320;
 			Reg.health --;
+			playerLife.remove(playerLife.members[Health-1]);
 			Health --;
 		}
 		if (bandit.x > 500){
 			bandit.x = 320;
 			Reg.health --;
+			playerLife.remove(playerLife.members[Health-1]);
 			Health --;
 		}
 		if(HeliHealth == 0){
@@ -320,6 +329,7 @@ class PlayState extends FlxState {
 	}
 		public function BanditHitsObstacle(obstacle: FlxSprite, bandit: Bandit):Void { // Obsticle kills Bandit
 		explosions.add(new Explosion(obstacle.x, obstacle.y+25));
+		playerLife.remove(playerLife.members[Health-1]);
 		obstacle.kill();
 		Reg.health --;
 		Health --;
