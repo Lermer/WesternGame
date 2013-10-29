@@ -46,7 +46,12 @@ class PlayState extends FlxState {
 	var cars: FlxGroup;
 	var boulders: FlxGroup;
 	var barricades: FlxGroup;
-	//
+	//explosion
+	public var explosions:FlxGroup;
+	//bandit x and y
+	var banditX:Float;
+	var banditY:Float;
+	//timer vars
 	var a:Int;
 	var b:Int;
 	var c:Int;
@@ -72,13 +77,11 @@ class PlayState extends FlxState {
 			add(bg);
 			bg2 = new Background2(0,FlxG.height - 3840);
 			add(bg2);
-
 		// Player Movement.x variables
 			maxSpeed = 400; //Limiter
 			speed = 0; //Default
-		
-		FlxG.volume = .5; //controls volume
-
+		//controls global volume
+			FlxG.volume = 0.5;
 		// Bandit Controls
 			bandit = new Bandit(FlxG.width/2-30, FlxG.height-300);
 			add(bandit); // Add Bandit
@@ -102,7 +105,10 @@ class PlayState extends FlxState {
 			add(barricades);
 			cars = new FlxGroup();
 			add(cars);
-
+		//explosions
+			explosions = new FlxGroup();
+			add(explosions);
+		//target
 			target = new Target();
 			add(target);//Add Shotgun Target
 		//Obstacle Count
@@ -121,7 +127,7 @@ class PlayState extends FlxState {
 			boulderTimer = 10;
 			barricadeTimer = 20;
 			cactusTimer = 2;
-			flashTimer = .5;
+			flashTimer = 0.5;
 		//obstacle timer updates
 			a = 2;
 			b = 5;
@@ -132,7 +138,7 @@ class PlayState extends FlxState {
 			HealthText.size = 32;
 			HealthText.alignment = "Left";
 			add(HealthText);
-
+		//
 			Health = 3;
 			Lives = 1;
 		//EnemyHealth
@@ -144,18 +150,25 @@ class PlayState extends FlxState {
 			LivesText.size = 32;
 			LivesText.alignment = "Left";
 			add(LivesText);
-
+		//
 			randomX = 0;
 			barricadeX = 0;
-
+		//
+			banditX = 0;
+			banditY = 0;
 		//SFX
 			FlxG.play("bgMusic", .6 , true);
 			FlxG.play("Siren", .2, true);
+		//fadein
+			FlxG.flash(0xffffffff, 0.3);
 
 			super.create();
 	}
 
 	override public function update():Void {
+
+		banditX = bandit.x;
+		banditY = bandit.y;
 
 		// Count Down Timers
 		carTimer -= FlxG.elapsed;
@@ -164,28 +177,28 @@ class PlayState extends FlxState {
 		barricadeTimer -= FlxG.elapsed;
 
 		//Controls where Obstacles spawn on Xaxis
-		randomX = (Math.round(Math.random()*380)+90);
+		randomX = (Math.round(Math.random()*360)+90);
 		barricadeX = (Math.round(Math.random()*200)+120);
 
 		// Spawns new Obstacles
 		if(cactusTimer < 0){
+			randomX = (Math.round(Math.random()*360)+90);
 			cacti.add(new Obstacle(randomX, 0, "assets/cactus.png"));
 			add(cacti);
 			cactusTimer = a;
-			randomX = (Math.round(Math.random()*380)+90);
 		}
 		if(boulderTimer < 0){
+			randomX = (Math.round(Math.random()*360)+90);
 			boulders.add(new Obstacle(randomX, 0,"assets/rock.png"));
 			boulderTimer =  b;
-			randomX = (Math.round(Math.random()*380)+90);
 		}
 		if(barricadeTimer < 0){
 			barricades.add(new Obstacle(barricadeX, 0, "assets/policecarblockade.png"));
 			barricadeTimer =  c;
-			randomX = (Math.round(Math.random()*380)+90);
 		}
 		if(carTimer < 0){
-			cars.add(new Car(randomX+60, 820));
+			randomX = (Math.round(Math.random()*360)+90);
+			cars.add(new Car(randomX, 820));
 			carTimer = 2;
 		}
 
@@ -244,7 +257,7 @@ class PlayState extends FlxState {
 		}
 		if (firing){
 			if (shotgun.fireAtMouse()){
-				//FlxG.play("Shoot",.5);
+				FlxG.play("Shoot",.5);
 			}
 		}
 		//Bandit Loses life for Leaving path
@@ -266,7 +279,7 @@ class PlayState extends FlxState {
 			a = 2;
 			b = 6;
 			c = 8;
-			//FlxG.play("Heli", .1, false);
+			FlxG.play("Heli", .1, false);
 			heli.x = heli.x += 2;
 		}
 		if(heli.x > 700) {
@@ -306,34 +319,36 @@ class PlayState extends FlxState {
 		//Health and lives counter
 	}
 		public function BanditHitsObstacle(obstacle: FlxSprite, bandit: Bandit):Void { // Obsticle kills Bandit
+		explosions.add(new Explosion(obstacle.x, obstacle.y+25));
 		obstacle.kill();
 		Reg.health --;
 		Health --;
 		FlxG.play("Explosion");
 		}
-		public function EnemyHitsObstacle(c:Car, obstacle: Obstacle):Void { //
+		public function EnemyHitsObstacle(c:Car, obstacle:Obstacle):Void { 
+		explosions.add(new Explosion(obstacle.x, obstacle.y+25));
 		c.kill();
 		obstacle.kill();
 		FlxG.play("Explosion");
 		}
-		public function ShotgunHitsTarget(shotgun: FlxObject, target: FlxSprite):Void { // 
+		public function ShotgunHitsTarget(shotgun: FlxObject, target:FlxSprite):Void { // 
+		explosions.add(new Explosion(target.x, target.y+25));
 		shotgun.kill();
 		target.kill();//car
 		KilledCars ++;
 		FlxG.play("Explosion");
 		}
-		public function ShotgunHitsHeli(shotgun: FlxObject, h: Heli):Void { // 
+		public function ShotgunHitsHeli(shotgun:FlxObject, h:Heli):Void { // 
+		explosions.add(new Explosion(h.x, h.y));
 		shotgun.kill();
 		HeliHealth--;
 		FlxG.play("Explosion");
 		}
 		public function BulletHitBandit(bandit:Bandit, eBullet:EnemyBullet):Void { //Void is data type for no data type/no numeric value; like int/float
-		//bandit.kill();
+		explosions.add(new Explosion(bandit.x, bandit.y));
 		eBullet.kill();
 		Reg.health --;
 		Health --;
 		FlxG.play("Explosion");
-
 	}
-
 }

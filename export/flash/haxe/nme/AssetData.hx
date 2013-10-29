@@ -34,8 +34,12 @@ class AssetData {
 			type.set ("assets/acidstructure.ttf", Reflect.field (AssetType, "font".toUpperCase ()));
 			className.set ("assets/banditbgm.mp3", nme.NME_assets_banditbgm_mp4);
 			type.set ("assets/banditbgm.mp3", Reflect.field (AssetType, "music".toUpperCase ()));
+			className.set ("assets/bomb3.png", nme.NME_assets_bomb3_png);
+			type.set ("assets/bomb3.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			className.set ("assets/cactus.png", nme.NME_assets_cactus_png);
 			type.set ("assets/cactus.png", Reflect.field (AssetType, "image".toUpperCase ()));
+			className.set ("assets/Clouds.png", nme.NME_assets_clouds_png);
+			type.set ("assets/Clouds.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			className.set ("assets/data/autotiles.png", nme.NME_assets_data_autotiles_png);
 			type.set ("assets/data/autotiles.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			className.set ("assets/data/autotiles_alt.png", nme.NME_assets_data_autotiles_alt_png);
@@ -108,6 +112,8 @@ class AssetData {
 			type.set ("assets/data/vis/bounds.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			className.set ("assets/death.mp3", nme.NME_assets_death_mp4);
 			type.set ("assets/death.mp3", Reflect.field (AssetType, "music".toUpperCase ()));
+			className.set ("assets/Explosion.png", nme.NME_assets_explosion_png);
+			type.set ("assets/Explosion.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			className.set ("assets/HaxeFlixel.svg", nme.NME_assets_haxeflixel_svg);
 			type.set ("assets/HaxeFlixel.svg", Reflect.field (AssetType, "text".toUpperCase ()));
 			className.set ("assets/Helicopter.mp3", nme.NME_assets_helicopter_mp4);
@@ -120,6 +126,8 @@ class AssetData {
 			type.set ("assets/helicopter2.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			className.set ("assets/mensch-bold.ttf", nme.NME_assets_mensch_bold_ttf);
 			type.set ("assets/mensch-bold.ttf", Reflect.field (AssetType, "font".toUpperCase ()));
+			className.set ("assets/Mouse.png", nme.NME_assets_mouse_png);
+			type.set ("assets/Mouse.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			className.set ("assets/police.png", nme.NME_assets_police_png);
 			type.set ("assets/police.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			className.set ("assets/policecar.png", nme.NME_assets_policecar_png);
@@ -164,6 +172,8 @@ class AssetData {
 			type.set ("assets/target.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			className.set ("assets/target1.png", nme.NME_assets_target1_png);
 			type.set ("assets/target1.png", Reflect.field (AssetType, "image".toUpperCase ()));
+			className.set ("assets/WASD.png", nme.NME_assets_wasd_png);
+			type.set ("assets/WASD.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			
 			
 			initialized = true;
@@ -184,7 +194,9 @@ class NME_assets_siren_mp3 extends flash.media.Sound { }
 class NME_assets_helicopter_mp3 extends flash.media.Sound { }
 class NME_assets_acidstructure_ttf extends flash.text.Font { }
 class NME_assets_banditbgm_mp4 extends flash.media.Sound { }
+class NME_assets_bomb3_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_cactus_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
+class NME_assets_clouds_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_data_autotiles_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_data_autotiles_alt_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_data_base_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
@@ -221,12 +233,14 @@ class NME_assets_data_vcr_step_png extends flash.display.BitmapData { public fun
 class NME_assets_data_vcr_stop_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_data_vis_bounds_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_death_mp4 extends flash.media.Sound { }
+class NME_assets_explosion_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_haxeflixel_svg extends flash.utils.ByteArray { }
 class NME_assets_helicopter_mp4 extends flash.media.Sound { }
 class NME_assets_helicopter_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_helicopter1_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_helicopter2_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_mensch_bold_ttf extends flash.text.Font { }
+class NME_assets_mouse_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_police_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_policecar_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_policecarblockade_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
@@ -249,3 +263,4 @@ class NME_assets_siren_mp4 extends flash.media.Sound { }
 class NME_assets_stagecoachv1frame1_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_target_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_target1_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
+class NME_assets_wasd_png extends flash.display.BitmapData { public function new () { super (0, 0); } }

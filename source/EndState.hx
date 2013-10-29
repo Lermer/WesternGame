@@ -31,7 +31,6 @@ class EndState extends FlxState {
 			FlxG.switchState(new MenuState());
 		}
 
-
 		super.update();
 	}	
 }

@@ -8,10 +8,7 @@ import org.flixel.FlxSprite;
 class EnemyBullet extends FlxSprite {
 
 	public function new(startX:Float, startY:Float):Void {
-		super(startX, startY);
-		loadGraphic("assets/sam/bullets.png",true,false,12,24);
-		addAnimation("loop",[0,1,2,3]);
-		play("loop");
+		super(startX, startY, "assets/bomb3.png");
 	}
 
 	override public function update():Void {
