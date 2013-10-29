@@ -19,5 +19,9 @@ class Car extends Enemy {
 		super.update();
 
 		y = y -= 2;
+
+		if(y < -96){
+			kill();
+		}
 	}
 }

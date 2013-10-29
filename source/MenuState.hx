@@ -27,6 +27,8 @@ class MenuState extends FlxState {
 		add(wasd);
 
 		super.create();
+
+		Reg.score = 0;
 	}
 	
 	override public function update():Void {

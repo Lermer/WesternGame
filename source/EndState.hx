@@ -27,9 +27,10 @@ class EndState extends FlxState {
 	}
 	
 	override public function update():Void {
-		if (timer.finished == true){
+		if(FlxG.keys.SPACE == true){
 			FlxG.switchState(new MenuState());
 		}
+
 
 		super.update();
 	}	

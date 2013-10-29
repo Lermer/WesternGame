@@ -19,7 +19,6 @@ class Heli extends Enemy {
 		scale.x = scale.y = 2;
 
 		bulletTimer = (FlxG.random()*1) + 0.5; //pick number between 0-x, add y seconds till enemy shoots
-
 	}
 
 	override public function update():Void {
@@ -30,6 +29,10 @@ class Heli extends Enemy {
 		if(bulletTimer < 0){
 			cast(FlxG.state, PlayState).enemybullets.add(new EnemyBullet(x + 24, y + 70));
 			bulletTimer = (FlxG.random()*2) + 2;
+
+			if(x > 673){
+			kill();
+		}
 	}
 		super.update();
 	}

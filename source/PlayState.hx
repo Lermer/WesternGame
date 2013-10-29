@@ -164,7 +164,7 @@ class PlayState extends FlxState {
 		barricadeTimer -= FlxG.elapsed;
 
 		//Controls where Obstacles spawn on Xaxis
-		randomX = (Math.round(Math.random()*360)+90);
+		randomX = (Math.round(Math.random()*380)+90);
 		barricadeX = (Math.round(Math.random()*200)+120);
 
 		// Spawns new Obstacles
@@ -172,17 +172,20 @@ class PlayState extends FlxState {
 			cacti.add(new Obstacle(randomX, 0, "assets/cactus.png"));
 			add(cacti);
 			cactusTimer = a;
+			randomX = (Math.round(Math.random()*380)+90);
 		}
 		if(boulderTimer < 0){
 			boulders.add(new Obstacle(randomX, 0,"assets/rock.png"));
 			boulderTimer =  b;
+			randomX = (Math.round(Math.random()*380)+90);
 		}
 		if(barricadeTimer < 0){
 			barricades.add(new Obstacle(barricadeX, 0, "assets/policecarblockade.png"));
 			barricadeTimer =  c;
+			randomX = (Math.round(Math.random()*380)+90);
 		}
 		if(carTimer < 0){
-			cars.add(new Car(randomX, 820));
+			cars.add(new Car(randomX+60, 820));
 			carTimer = 2;
 		}
 
@@ -241,7 +244,7 @@ class PlayState extends FlxState {
 		}
 		if (firing){
 			if (shotgun.fireAtMouse()){
-				FlxG.play("Shoot",.5);
+				//FlxG.play("Shoot",.5);
 			}
 		}
 		//Bandit Loses life for Leaving path
@@ -263,7 +266,7 @@ class PlayState extends FlxState {
 			a = 2;
 			b = 6;
 			c = 8;
-			FlxG.play("Heli", .1, false);
+			//FlxG.play("Heli", .1, false);
 			heli.x = heli.x += 2;
 		}
 		if(heli.x > 700) {
@@ -302,13 +305,13 @@ class PlayState extends FlxState {
 		LivesText.text = ("Lives: " + Std.string(Reg.lives));
 		//Health and lives counter
 	}
-		public function BanditHitsObstacle(obstacle: Obstacle, bandit: Bandit):Void { // Obsticle kills Bandit
+		public function BanditHitsObstacle(obstacle: FlxSprite, bandit: Bandit):Void { // Obsticle kills Bandit
 		obstacle.kill();
 		Reg.health --;
 		Health --;
 		FlxG.play("Explosion");
 		}
-		public function EnemyHitsObstacle(obstacle:Obstacle, c:Car):Void { //
+		public function EnemyHitsObstacle(c:Car, obstacle: Obstacle):Void { //
 		c.kill();
 		obstacle.kill();
 		FlxG.play("Explosion");
@@ -330,6 +333,7 @@ class PlayState extends FlxState {
 		Reg.health --;
 		Health --;
 		FlxG.play("Explosion");
+
 	}
 
 }
